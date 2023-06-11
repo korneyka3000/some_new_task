@@ -1,0 +1,27 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      context: './'
+      dockerfile: './Dockerfile'
+    container_name: 'backend'
+    restart: always
+    ports:
+      - "${HTTP_PORT}:8000"
+    env_file:
+      - '.env'
+
+  redis:
+    image: 'redis:alpine'
+    container_name: '${REDIS_HOST}'
+    restart: always
+    ports:
+      - "6377:${REDIS_PORT}"
+    volumes:
+      - 'redis_lexicom_data:/data'
+    env_file:
+      - '.env'
+
+volumes:
+  redis_lexicom_data:
